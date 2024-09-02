@@ -1,0 +1,53 @@
+$num-bits: 100;
+$bit-percentage: 100 / $num-bits * 1%;
+
+.flag {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  width: 152vh;
+  height: 80vh;
+  perspective: 50vh;
+}
+
+.flag-bit {
+  width: $bit-percentage;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/2/21/Flag_of_Vietnam.svg');
+  background-size: 122vh auto;
+  animation-duration: 2000ms;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  
+  @for $i from 1 through $num-bits {
+    &:nth-child(#{$i}) {
+      left: #{($i - 1) * $bit-percentage};
+      background-position: #{($i - 1) * $bit-percentage} 0;
+      animation-name: bit-#{$i};
+      animation-delay: #{$i * 100}ms;
+    }
+  }
+}
+
+// Animations
+@for $i from 1 through $num-bits {
+  @keyframes bit-#{$i} {
+    0% {
+      transform: translateY(0) skewY(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(2%);
+      opacity: 0.7;
+    }
+  }
+}
+
+// Setting up the Pen
+body {
+  background-color: #222;
+}
